@@ -56,7 +56,7 @@ private     FacePassModel livenessModel;
                             float livenessThreshold = baoCunBean.getHuoTiFZ();
                             boolean livenessEnabled = baoCunBean.isHuoTi();
                             int faceMinThreshold =baoCunBean.getShibieFaceSize();
-                            FacePassPose poseThreshold = new FacePassPose(22f, 22f, 22f);
+                            FacePassPose poseThreshold = new FacePassPose(26f, 26f, 26f);
                             float blurThreshold = 0.3f;
                             float lowBrightnessThreshold = 70f;
                             float highBrightnessThreshold = 210f;
@@ -92,7 +92,7 @@ private     FacePassModel livenessModel;
                                 float lowBrightnessThreshold2 = 70f;
                                 float highBrightnessThreshold2 = 210f;
                                 float brightnessSTDThreshold2 = 60f;
-                                FacePassConfig config1=new FacePassConfig(faceMinThreshold2,30f,30f,30f,blurThreshold2,
+                                FacePassConfig config1=new FacePassConfig(faceMinThreshold2,26f,26f,26f,blurThreshold2,
                                         lowBrightnessThreshold2,highBrightnessThreshold2,brightnessSTDThreshold2);
 
                                 Log.d("YanShiActivity", "设置入库质量配置" + mFacePassHandler.setAddFaceConfig(config1));

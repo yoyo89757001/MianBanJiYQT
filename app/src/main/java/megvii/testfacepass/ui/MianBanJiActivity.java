@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 
@@ -104,6 +105,7 @@ import megvii.testfacepass.tts.util.OfflineResource;
 import megvii.testfacepass.utils.DateUtils;
 import megvii.testfacepass.utils.FacePassUtil;
 import megvii.testfacepass.utils.FileUtil;
+import megvii.testfacepass.utils.NetLockerAlarmController;
 import megvii.testfacepass.utils.SettingVar;
 
 import megvii.testfacepass.view.ChuShiHuaListion;
@@ -258,7 +260,7 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
     // private static final long CLICK_INTERVAL = 500;
     //  private long mLastClickTime;
   //  private IjkVideoView shipingView;
-
+    private boolean isOP=true;
     private int heightPixels;
     private int widthPixels;
     int screenState = 0;// 0 横 1 竖
@@ -1122,6 +1124,12 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
         });
 
         isSC=true;
+        long now = SystemClock.uptimeMillis();
+        Log.d("MianBanJiActivity", "now:" + now);
+        Log.d("MianBanJiActivity", "now % 1000:" + (now % 1000));
+        long next = now + (1000 - now % 1000);// 够不够一秒,保证一秒更新一次
+        Log.d("MianBanJiActivity", "next:" + next);
+
     }
 
 
@@ -1299,12 +1307,12 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
                                               //  link_shangchuanjilu(subject);
                                             } else {
                                                 EventBus.getDefault().post("没有查询到人员信息");
-//                                                Subject subject1 = new Subject();
-//                                                subject1.setId(12345);
-//                                                subject1.setName("测试");
-//                                                subject1.setTeZhengMa(result.faceToken);
-//                                                subject1.setPeopleType("白名单");
-//                                                subjectBox.put(subject1);
+                                                Subject subject1 = new Subject();
+                                                subject1.setId(System.currentTimeMillis());
+                                                subject1.setName("测试");
+                                                subject1.setTeZhengMa(result.faceToken);
+                                                subject1.setPeopleType("白名单");
+                                                subjectBox.put(subject1);
                                             }
 
                                         } catch (FacePassException e) {
@@ -1685,7 +1693,27 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
         widthPixels = displayMetrics.widthPixels;
         SettingVar.mHeight = heightPixels;
         SettingVar.mWidth = widthPixels;
+        mianBanJiView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Log.d("MianBanJiActivity", "点击");
+                if (isOP){
+                    isOP=false;
+                    NetLockerAlarmController alarmController = new NetLockerAlarmController();
+                    alarmController.init();
+                    alarmController.openAlarm("192.168.2.20");
+                }else {
+                    isOP=true;
+                    NetLockerAlarmController alarmController = new NetLockerAlarmController();
+                    alarmController.init();
+                    alarmController.closeAlarmCommand("113.119.134.107");
+                }
+
+
+
+            }
+        });
 
         /* 初始化界面 */
         //  faceView = (FaceView) this.findViewById(R.id.fcview);
