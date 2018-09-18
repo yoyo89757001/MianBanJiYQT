@@ -67,6 +67,17 @@ public class Subject implements Comparator<Subject> {
     private String departmentName;
     private int daka;
     private String shijian;
+    private String displayPhoto;
+
+
+
+    public String getDisplayPhoto() {
+        return displayPhoto;
+    }
+
+    public void setDisplayPhoto(String displayPhoto) {
+        this.displayPhoto = displayPhoto;
+    }
 
     public String getShijian() {
         return shijian;

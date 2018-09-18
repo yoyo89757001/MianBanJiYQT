@@ -111,6 +111,7 @@ public class MyReceiver extends BroadcastReceiver {
 	private final String SDPATH = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+"ruitongzip";
 	public static boolean isDW=true;
 	private FacePassHandler  facePassHandler;
+	private StringBuilder stringBuilderId=new StringBuilder();
 
 	@Override
 	public void onReceive(final Context context, Intent intent) {
@@ -187,7 +188,9 @@ public class MyReceiver extends BroadcastReceiver {
 					//baoCunBeanDao.put(baoCunBean);
 					//Intent intent2=new Intent("gxshipingdizhi");
 					//context.sendBroadcast(intent2);
-
+					if (stringBuilderId.length()>0){
+						stringBuilderId.delete(0,stringBuilderId.length());
+					}
 					path2 =baoCunBean.getHoutaiDiZhi().substring(0,baoCunBean.getHoutaiDiZhi().length()-5)+
 							jsonObject.get("url").getAsString();
 					Log.d(TAG, path2);
@@ -555,7 +558,8 @@ public class MyReceiver extends BroadcastReceiver {
 										subjectList.get(j).setTeZhengMa(faceResult.faceToken);
 										subjectList.get(j).setDaka(0);
 										subjectBox.put(subjectList.get(j));
-
+										stringBuilderId.append(subjectList.get(j).getId());
+										stringBuilderId.append(",");
 										Log.d(TAG,"批量入库成功："+ subjectList.get(j).getId());
 
 									}else {
@@ -611,6 +615,10 @@ public class MyReceiver extends BroadcastReceiver {
 
 						}else {
 							showNotifictionIcon(0,"入库完成","全部入库成功，没有失败记录");
+						}
+
+						if (stringBuilderId.length()>0){
+							gengxingzhuangtai();
 						}
 					}
 
@@ -1154,6 +1162,7 @@ public class MyReceiver extends BroadcastReceiver {
 									subject.setStoreId(renShu.getStoreId());
 									subject.setStoreName(renShu.getStoreName());
 									subject.setCompanyId(renShu.getCompanyId());
+									subject.setDisplayPhoto(renShu.getDisplayPhoto());
 									subjectBox.put(subject);
 									Log.d("MyReceiver", "单个访客入库成功");
 								}else {
@@ -1263,6 +1272,7 @@ public class MyReceiver extends BroadcastReceiver {
 									subject.setStoreId(renShu.getStoreId());
 									subject.setStoreName(renShu.getStoreName());
 									subject.setCompanyId(renShu.getCompanyId());
+									subject.setDisplayPhoto(renShu.getDisplayPhoto());
 									subjectBox.put(subject);
 									Log.d("MyReceiver", "单个员工入库成功");
 								}else {
@@ -1438,6 +1448,52 @@ public class MyReceiver extends BroadcastReceiver {
 	}
 
 
+	private void gengxingzhuangtai(){
+		final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+		OkHttpClient okHttpClient = new OkHttpClient.Builder()
+				.writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+				.connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+				.readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+//				.cookieJar(new CookiesManager())
+				//.retryOnConnectionFailure(true)
+				.build();
 
+		RequestBody body = new FormBody.Builder()
+				.add("pictureId", stringBuilderId.toString())
+				//.add("cardNumber", id + "")
+				.build();
+		Request.Builder requestBuilder = new Request.Builder()
+				//.header("Content-Type", "application/json")
+				.post(body)
+				.url(baoCunBean.getHoutaiDiZhi() + "/app/employeeStatus");
+
+		// step 3：创建 Call 对象
+		Call call = okHttpClient.newCall(requestBuilder.build());
+
+		//step 4: 开始异步请求
+		call.enqueue(new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+				Log.d("AllConnects", "请求失败" + e.getMessage());
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				Log.d("AllConnects", "请求成功" + call.request().toString());
+				//获得返回体
+				try {
+					//没了删除，所有在添加前要删掉所有
+
+					ResponseBody body = response.body();
+					String ss = body.string().trim();
+					Log.d("AllConnects", "更新后台状态" + ss);
+
+				} catch (Exception e) {
+
+					Log.d("WebsocketPushMsg", e.getMessage() + "gggg");
+				}
+			}
+		});
+	}
 
 }

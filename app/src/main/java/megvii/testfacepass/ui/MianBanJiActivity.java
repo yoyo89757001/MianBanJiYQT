@@ -1707,7 +1707,7 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
                     isOP=true;
                     NetLockerAlarmController alarmController = new NetLockerAlarmController();
                     alarmController.init();
-                    alarmController.closeAlarmCommand("113.119.134.107");
+                    alarmController.closeAlarmCommand("192.168.2.20");
                 }
 
 
