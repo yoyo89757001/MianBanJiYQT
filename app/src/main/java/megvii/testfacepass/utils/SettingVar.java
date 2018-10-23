@@ -8,9 +8,9 @@ import megvii.facepass.types.FacePassImageRotation;
 
 public class SettingVar {
     public static boolean cameraFacingFront = true;
-    public static int faceRotation = FacePassImageRotation.DEG270;
-    public static boolean isSettingAvailable = false;
-    public static int cameraPreviewRotation = 90;
+    public static int faceRotation = FacePassImageRotation.DEG0;
+    public static boolean isSettingAvailable = true;
+    public static int cameraPreviewRotation = 0;
     public static boolean isCross = false;
     public static String SharedPrefrence = "user";
     public static int mHeight;

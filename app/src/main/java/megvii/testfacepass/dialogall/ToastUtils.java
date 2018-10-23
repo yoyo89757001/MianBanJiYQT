@@ -1,7 +1,5 @@
 package megvii.testfacepass.dialogall;
 
-import android.util.Log;
-
 /**
  * Created by 于德海 on 2016/9/8.
  *
@@ -22,7 +20,7 @@ public class ToastUtils {
       //  Log.d("ToastUtils", "mListener:" + mListener);
     }
 
-    public static  ToastUtils getInstances(){
+    public static ToastUtils getInstances(){
         if (instances == null)
         {
             synchronized (ToastUtils.class)
@@ -34,6 +32,10 @@ public class ToastUtils {
             }
         }
         return instances;
+    }
+
+    public void setDate(String a,float p, String t){
+        mListener.setDate(a, (int) p,t);
     }
 
 

@@ -38,6 +38,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -296,8 +298,8 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
    // private DiBuAdapter diBuAdapter = null;
    // private GridLayoutManager gridLayoutManager = new GridLayoutManager(MianBanJiActivity.this, 2, LinearLayoutManager.HORIZONTAL, false);
     private static final String authIP = "https://api-cn.faceplusplus.com";
-    private static final String apiKey = "VIA9tPfCsx0_UXpf1oGmh6_dMqHvbmm9";
-    private static final String apiSecret = "SYqy-J0lvdNpBpTfXz8ZOtsaXGsyHEQf";
+    private static final String apiKey = "zIvtfbe_qPHpLZzmRAE-zVg7-EaVhKX2";
+    private static final String apiSecret = "-H4Ik0iZ_5YTyw5NPT8LfnJREz_NCbo7";
     private static boolean isSC=true;
 
 
@@ -334,6 +336,13 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
         //linkedBlockingQueue = new LinkedBlockingQueue<>();
 
         EventBus.getDefault().register(this);//订阅
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        dw = dm.widthPixels;
+        dh = dm.heightPixels;
+
+
         /* 初始化界面 */
         initView();
 //        dibuliebiao.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
@@ -380,12 +389,6 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
       //  tanChuangThread = new TanChuangThread();
        // tanChuangThread.start();
 
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        dw = dm.widthPixels;
-        dh = dm.heightPixels;
-
-
         mHandler = new WeakHandler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -393,7 +396,6 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
                     case 111:
                         //弹窗
                         Subject bean = (Subject) msg.obj;
-
 //                        final View view1 = View.inflate(MianBanJiActivity.this, R.layout.lingdao_item, null);
 //                        ScreenAdapterTools.getInstance().loadView(view1);
 //                        TextView name1 = (TextView) view1.findViewById(R.id.name);
@@ -1299,7 +1301,7 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
                                     @Override
                                     public void run() {
                                         try {
-                                            Subject subject = subjectBox.query().equal(Subject_.teZhengMa, result.faceToken).build().findUnique();
+                                            Subject subject = subjectBox.query().equal(Subject_.teZhengMa, new String(result.faceToken)).build().findUnique();
                                             if (subject != null) {
                                                // linkedBlockingQueue.offer(subject);
                                                 mianBanJiView.setBitmap(FileUtil.toRoundBitmap(mFacePassHandler.getFaceImage(result.faceToken)),subject.getName());
@@ -1310,7 +1312,7 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
                                                 Subject subject1 = new Subject();
                                                 subject1.setId(System.currentTimeMillis());
                                                 subject1.setName("测试");
-                                                subject1.setTeZhengMa(result.faceToken);
+                                                subject1.setTeZhengMa(new String(result.faceToken));
                                                 subject1.setPeopleType("白名单");
                                                 subjectBox.put(subject1);
                                             }
@@ -1581,6 +1583,8 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
         Typeface tf = Typeface.createFromAsset(mgr, "fonts/Univers LT 57 Condensed.ttf");
         Typeface tf2 = Typeface.createFromAsset(mgr, "fonts/hua.ttf");
         Typeface tf3 = Typeface.createFromAsset(mgr, "fonts/kai.ttf");
+        RelativeLayout topll=findViewById(R.id.toptop_ll);
+
         // String riqi2 = DateUtils.timesTwo(System.currentTimeMillis() + "") + "   " + DateUtils.getWeek(System.currentTimeMillis());
         //  riqi.setTypeface(tf);
         //    riqi.setText(riqi2);
@@ -1696,7 +1700,7 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
         mianBanJiView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //网络开关
                 Log.d("MianBanJiActivity", "点击");
                 if (isOP){
                     isOP=false;
@@ -1709,11 +1713,12 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
                     alarmController.init();
                     alarmController.closeAlarmCommand("192.168.2.20");
                 }
-
-
-
             }
         });
+      RelativeLayout.LayoutParams pp= (RelativeLayout.LayoutParams) topll.getLayoutParams();
+      pp.height=(int) (dh*0.2f);
+      topll.setLayoutParams(pp);
+      topll.invalidate();
 
         /* 初始化界面 */
         //  faceView = (FaceView) this.findViewById(R.id.fcview);
@@ -1724,6 +1729,8 @@ public class MianBanJiActivity extends Activity implements CameraManager.CameraL
         manager.setPreviewDisplay(cameraView);
         /* 注册相机回调函数 */
         manager.setListener(this);
+        cameraView.setHight(dh);
+
 
 //
 //        if (todayBean != null) {

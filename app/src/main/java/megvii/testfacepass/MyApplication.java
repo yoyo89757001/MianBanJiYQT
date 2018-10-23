@@ -52,7 +52,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         myApplication = this;
         mBoxStore = MyObjectBox.builder().androidContext(this).build();
 
-        Bugly.init(getApplicationContext(), "acd60de457", false);
+        Bugly.init(getApplicationContext(), "b1f6250dc0", false);
         //适配
         ScreenAdapterTools.init(this);
         JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志

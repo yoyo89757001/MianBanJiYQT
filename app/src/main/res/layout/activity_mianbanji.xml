@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:clipChildren="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,14 +11,35 @@
         <!--android:layout_height="wrap_content"-->
         <!--android:background="@color/ijk_transparent_dark"-->
         <!--android:padding="8dp" />-->
+    <RelativeLayout
+        android:orientation="vertical"
+        android:id="@+id/toptop_ll"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:background="@drawable/topbg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="42px"
+            android:layout_marginTop="12px"
+            android:gravity="center"
+            android:text="智能梯控系统"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </RelativeLayout>
 
         <megvii.testfacepass.camera.CameraPreview
             android:id="@+id/preview"
-            android:layout_centerInParent="true"
+            android:layout_below="@+id/toptop_ll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical" />
+            android:layout_height="match_parent"/>
 
 
     <!--<ImageView-->
@@ -383,6 +403,7 @@
 
     <megvii.testfacepass.view.MianBanJiView
         android:id="@+id/mianbanjiview"
+        android:background="#00000000"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

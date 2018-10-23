@@ -103,9 +103,9 @@ public class SheZhiActivity2 extends Activity {
             baoCunBean = new BaoCunBean();
             baoCunBean.setId(123456L);
             baoCunBean.setHoutaiDiZhi("http://192.168.2.187:8980/js/f");
-            baoCunBean.setShibieFaceSize(100);
+            baoCunBean.setShibieFaceSize(40);
             baoCunBean.setShibieFaZhi(70);
-            baoCunBean.setRuKuFaceSize(80);
+            baoCunBean.setRuKuFaceSize(60);
             baoCunBean.setRuKuMoHuDu(0.4f);
             baoCunBean.setHuoTiFZ(70);
             baoCunBean.setHuoTi(true);

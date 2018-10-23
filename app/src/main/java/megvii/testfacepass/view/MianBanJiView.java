@@ -6,12 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
-
-
 import android.util.AttributeSet;
 
 import android.util.Log;
@@ -69,10 +64,10 @@ public class MianBanJiView extends View{
     // 声波的圆圈集合
     private List<Circle> mRipples;
     // 圆圈扩散的速度
-    private int mSpeed=4;
+    private int mSpeed=2;
     private Context context;
     // 圆圈之间的密度
-    private int mDensity=40;
+    private int mDensity=30;
     private int sqrtNumber;
     private Bitmap bitmap=null;
     private String wenhou="";
@@ -110,9 +105,9 @@ public class MianBanJiView extends View{
     }
 
     private void initData(){
-        paintSaoMiao.setColor(Color.parseColor("#661b37d6"));
+        paintSaoMiao.setColor(Color.parseColor("#AA1b37d6"));
         paintSaoMiao.setStyle(Paint.Style.FILL);
-        paintSaoMiao.setStrokeWidth(14.0f);
+        paintSaoMiao.setStrokeWidth(10.0f);
 
         kuangPaint.setColor(Color.parseColor("#ffffff"));
         kuangPaint.setStyle(Paint.Style.STROKE);
@@ -123,7 +118,7 @@ public class MianBanJiView extends View{
         tanhaoPaint.setStyle(Paint.Style.FILL);
         tanhaoPaint.setAntiAlias(true);
 
-        kuangPaint2.setColor(Color.parseColor("#69ffffff"));
+        kuangPaint2.setColor(Color.parseColor("#55ffffff"));
         kuangPaint2.setStyle(Paint.Style.FILL);
 
         tishiPaint.setColor(Color.parseColor("#aaffffff"));
@@ -132,7 +127,7 @@ public class MianBanJiView extends View{
         yuanPaint.setColor(Color.parseColor("#69FF4081"));
         yuanPaint.setStyle(Paint.Style.FILL);
 
-        kuangPaint3.setColor(Color.parseColor("#69000000"));
+        kuangPaint3.setColor(Color.parseColor("#55000000"));
         kuangPaint3.setStyle(Paint.Style.FILL);
 
         ziPaint.setColor(Color.parseColor("#ffffff"));
@@ -323,7 +318,10 @@ public class MianBanJiView extends View{
                         type = 0;
                     }
                 };
-                timer.schedule(task, 6000);
+                if (task!=null && timer!=null){
+                    timer.schedule(task, 5000);
+                }
+
             } else {
                 task = new TimerTask() {
                     @Override
@@ -331,7 +329,10 @@ public class MianBanJiView extends View{
                         type = 0;
                     }
                 };
-                timer.schedule(task, 6000);
+                if (task!=null && timer!=null){
+                    timer.schedule(task, 5000);
+                }
+
             }
 
         //动画
@@ -382,6 +383,7 @@ public class MianBanJiView extends View{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
 
         if (isStart){
             //获取到了宽高开始绘制
